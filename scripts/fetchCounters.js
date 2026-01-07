@@ -137,6 +137,11 @@ const parseCountersPage = (html) => {
       }
     }
     const lane = laneMap[laneRaw] || null
+
+    // Ignore headings that sit under non-lane sections (e.g. "Other Champions Counter")
+    // to avoid pulling unrelated counters into this champion.
+    if (laneRaw && !lane) continue
+
     const key = lane || 'unknown'
     if (!sections.has(key)) {
       sections.set(key, { lane: lane || 'unknown', weak: new Set(), strong: new Set() })
